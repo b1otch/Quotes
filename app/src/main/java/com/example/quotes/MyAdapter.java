@@ -1,18 +1,24 @@
 package com.example.quotes;
 
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
 
     ArrayList<Dataset> dataHolder;
+    String author, content;
+    RecViewFragment recViewFragment;
 
     public MyAdapter(ArrayList<Dataset> dataHolder) {
         this.dataHolder = dataHolder;
@@ -27,8 +33,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        holder.authorView.setText(dataHolder.get(position).getAuthor());
-        holder.contentView.setText(dataHolder.get(position).getContent());
+        author = dataHolder.get(position).getAuthor();
+        content = dataHolder.get(position).getContent();
+        holder.authorView.setText(author);
+        holder.contentView.setText(content);
+        Log.i("2", String.valueOf(position));
+
+        holder.micButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int speechContent = holder.textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
     }
 
     @Override
@@ -39,11 +55,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
     class myViewHolder extends RecyclerView.ViewHolder {
 
         TextView contentView, authorView;
+        Button shareButton, micButton;
+        TextToSpeech textToSpeech;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             contentView = itemView.findViewById(R.id.contentView);
             authorView = itemView.findViewById(R.id.authorView);
+            shareButton = itemView.findViewById(R.id.shareButton);
+            micButton = itemView.findViewById(R.id.micButton);
+            Log.i("1", "1");
+
+            textToSpeech = new TextToSpeech(itemView.getContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int i) {
+                    if (i == TextToSpeech.SUCCESS) {
+                        Log.i("success", "yes");
+                        int language = textToSpeech.setLanguage(Locale.ENGLISH);
+                    }
+                }
+            });
         }
     }
 }

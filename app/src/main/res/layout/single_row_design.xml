@@ -30,6 +30,37 @@
             android:text=""
             android:textColor="@color/black"
             android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/authorView"
+            android:background="@android:color/transparent"
+            android:text="♥"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/authorView"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@+id/button"
+            android:text="share"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/micButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/authorView"
+            android:layout_toEndOf="@+id/shareButton"
+            android:background="@android:color/transparent"
+            android:text="🎙"
+            android:textSize="16sp" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

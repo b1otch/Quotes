@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +53,7 @@ public class RecViewFragment extends Fragment {
     MyAdapter myAdapter;
     ProgressBar progressBar;
     ListOfQuotes listOfQuotes;
+    TextToSpeech textToSpeech;
 
 
     public RecViewFragment() {
@@ -193,7 +196,13 @@ public class RecViewFragment extends Fragment {
                     JSONObject jsonObject1 = jsonObject.getJSONArray("results").getJSONObject(i);
                     String content = jsonObject1.getString("content");
                     String author = jsonObject1.getString("author");
-                    Dataset dataset = new Dataset(author, content);
+                    JSONArray jsonTags = jsonObject1.getJSONArray("tags");
+                    String[] tags = new String[jsonTags.length()];
+                    for(int j = 0; j < jsonTags.length(); j++) {
+                        tags[j] = jsonTags.getString(j);
+                    }
+                    String id = jsonObject1.getString("_id");
+                    Dataset dataset = new Dataset(author, content, tags, id, false);
                     dataHolder.add(dataset);
                 }
                 Log.i("author", String.valueOf(dataHolder.size()));
