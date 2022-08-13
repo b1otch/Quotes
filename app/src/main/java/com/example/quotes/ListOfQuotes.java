@@ -47,6 +47,7 @@ public class ListOfQuotes extends AppCompatActivity implements MultipleChoiceDia
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });

@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
-    android:elevation="4dp"
+    android:elevation="5dp"
+    app:cardElevation="7dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -15,7 +16,7 @@
         <TextView
             android:id="@+id/contentView"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="wrap_content"
             android:gravity="end"
             android:text=""
             android:textColor="@color/black"
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/contentView"
             android:gravity="end"
+            android:layout_marginTop="10dp"
             android:text=""
             android:textColor="@color/black"
             android:textSize="14sp" />

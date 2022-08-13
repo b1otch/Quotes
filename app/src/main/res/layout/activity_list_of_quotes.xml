@@ -10,58 +10,63 @@
         android:id="@+id/homepageButton"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         android:text="⌂"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toStartOf="@+id/editTextPrompt"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homepageButton">
+        app:layout_constraintTop_toBottomOf="@+id/searchButton">
 
     </FrameLayout>
 
     <EditText
         android:id="@+id/editTextPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="260dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:autofillHints="no"
         android:ems="10"
+        android:hint="Enter prompt"
         android:inputType="textPersonName"
         android:text=""
-        android:hint="Enter prompt"
-        android:autofillHints="no"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:onClick="onClick"
-        android:text="🔍"
-        app:layout_constraintStart_toEndOf="@+id/editTextPrompt"
+        app:layout_constraintStart_toEndOf="@+id/homepageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/filterButton"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         android:text="Ɏ"
-        app:layout_constraintEnd_toStartOf="@+id/homepageButton"
-        app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:text="🔍"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toStartOf="@+id/filterButton"
+        app:layout_constraintStart_toEndOf="@+id/editTextPrompt"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

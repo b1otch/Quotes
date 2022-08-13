@@ -1,9 +1,14 @@
 package com.example.quotes;
 
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,11 +48,30 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         downloadTask = new DownloadTask();
-        downloadTask.execute("https://quotable.io/random");
+
 
         tagDownload = new TagDownload();
         tags = new ArrayList<>();
-        tagDownload.execute("https://quotable.io/tags");
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo datac = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if ((wifi != null & datac != null) && (wifi.isConnected() | datac.isConnected())) {
+            downloadTask.execute("https://quotable.io/random");
+            tagDownload.execute("https://quotable.io/tags");
+        }else{
+            new AlertDialog.Builder(MainActivity.this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Check Connection")
+                    .setMessage("Please check the internet connection of this device")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
+        getSupportActionBar().hide();
 
         textViewQuote = findViewById(R.id.textViewQuote);
         textViewAuthor = findViewById(R.id.textViewAuthor);
@@ -93,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 randomQuote = jsonObject.getString("content");
                 textViewQuote.setText(randomQuote);
                 String author = jsonObject.getString("author");
-                textViewAuthor.setText(author);
+                textViewAuthor.setText("- " + author);
                 progressBar.setVisibility(View.INVISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -145,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            Log.i("tags", tags.toString());
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < tags.size(); i++) {
                 sb.append(tags.get(i)).append(",");
@@ -156,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToList(View view) {
+        Log.i("pressed", "yes");
         Intent intent = new Intent(getApplicationContext(), ListOfQuotes.class);
         startActivity(intent);
     }

@@ -1,5 +1,6 @@
 package com.example.quotes;
 
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
 
     ArrayList<Dataset> dataHolder;
     String author, content;
-    RecViewFragment recViewFragment;
 
     public MyAdapter(ArrayList<Dataset> dataHolder) {
         this.dataHolder = dataHolder;
@@ -38,13 +38,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
         holder.authorView.setText(author);
         holder.contentView.setText(content);
         Log.i("2", String.valueOf(position));
-
-        holder.micButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int speechContent = holder.textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null);
-            }
-        });
     }
 
     @Override
@@ -73,6 +66,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
                         Log.i("success", "yes");
                         int language = textToSpeech.setLanguage(Locale.ENGLISH);
                     }
+                }
+            });
+
+            micButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int speechContent = textToSpeech.speak(contentView.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                }
+            });
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, contentView.getText().toString() + "\n -" +authorView.getText().toString());
+                    sendIntent.setType("text/plain");
+
+                    Intent shareIntent = Intent.createChooser(sendIntent, null);
+                    itemView.getContext().startActivity(shareIntent);
                 }
             });
         }
